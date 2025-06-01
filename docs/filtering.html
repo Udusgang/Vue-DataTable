@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filtering - Vue DataTable Component</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="text-xl font-bold text-gray-900">Vue DataTable</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="index.html" class="text-gray-600 hover:text-gray-900">Documentation</a>
+                    <a href="https://github.com/your-repo/vue-datatable" class="text-gray-600 hover:text-gray-900">GitHub</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="flex">
+            <!-- Sidebar -->
+            <div class="w-64 flex-shrink-0">
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Documentation</h3>
+                    <nav class="space-y-2">
+                        <a href="index.html" class="block text-gray-600 hover:text-gray-900">Overview</a>
+                        <a href="installation.html" class="block text-gray-600 hover:text-gray-900">Installation</a>
+                        <a href="basic-usage.html" class="block text-gray-600 hover:text-gray-900">Basic Usage</a>
+                        
+                        <div class="pt-4">
+                            <h4 class="text-sm font-semibold text-gray-900 mb-2">Features</h4>
+                            <div class="space-y-1 ml-4">
+                                <a href="server-side.html" class="block text-gray-600 hover:text-gray-900 text-sm">Server-Side</a>
+                                <a href="#filtering" class="block text-indigo-600 font-medium text-sm">Filtering</a>
+                                <a href="sorting.html" class="block text-gray-600 hover:text-gray-900 text-sm">Sorting</a>
+                                <a href="pagination.html" class="block text-gray-600 hover:text-gray-900 text-sm">Pagination</a>
+                                <a href="scrollable.html" class="block text-gray-600 hover:text-gray-900 text-sm">Scrollable</a>
+                                <a href="searchable-select.html" class="block text-gray-600 hover:text-gray-900 text-sm">Searchable Select</a>
+                                <a href="additional-filters.html" class="block text-gray-600 hover:text-gray-900 text-sm">Additional Filters</a>
+                                <a href="export.html" class="block text-gray-600 hover:text-gray-900 text-sm">Export</a>
+                                <a href="customization.html" class="block text-gray-600 hover:text-gray-900 text-sm">Customization</a>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="flex-1 ml-8">
+                <div class="bg-white rounded-lg shadow p-8">
+                    <h1 class="text-3xl font-bold text-gray-900 mb-6">Filtering</h1>
+                    
+                    <div class="prose max-w-none">
+                        <!-- Overview -->
+                        <section class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Overview</h2>
+                            <p class="text-gray-600 mb-4">
+                                The DataTable component provides comprehensive filtering capabilities including global search, 
+                                column-specific filters, searchable select dropdowns, and additional filters for non-visible fields.
+                            </p>
+                            
+                            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                                <h3 class="text-lg font-semibold text-blue-900 mb-2">Filter Types</h3>
+                                <ul class="list-disc list-inside text-blue-800 space-y-1">
+                                    <li><strong>Global Search:</strong> Search across all searchable columns</li>
+                                    <li><strong>Column Filters:</strong> Filter individual columns with different input types</li>
+                                    <li><strong>Searchable Selects:</strong> Dropdown filters with search functionality</li>
+                                    <li><strong>Additional Filters:</strong> Filter by non-visible fields like created_at</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <!-- Global Search -->
+                        <section class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Global Search</h2>
+                            <p class="text-gray-600 mb-4">
+                                Global search allows users to search across multiple columns simultaneously.
+                            </p>
+                            
+                            <div class="bg-gray-900 rounded-lg p-6 mb-6">
+                                <pre><code class="language-vue">&lt;template&gt;
+  &lt;DataTable
+    :data="products"
+    :columns="columns"
+    :config="config"
+    server-side
+    @filter="handleFilter"
+  /&gt;
+&lt;/template&gt;
+
+&lt;script setup&gt;
+const config = ref({
+  filtering: {
+    enabled: true,
+    global: true,        // Enable global search
+    debounce: 300       // Debounce delay in milliseconds
+  }
+})
+
+// Handle global search
+async function handleFilter({ key, value, type }) {
+  if (key === 'global') {
+    // Handle global search
+    console.log('Global search:', value)
+    // Send to server: ?search=value
+  }
+}
+&lt;/script&gt;</code></pre>
+                            </div>
+                        </section>
+
+                        <!-- Column Filters -->
+                        <section class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Column Filters</h2>
+                            <p class="text-gray-600 mb-4">
+                                Each column can have its own filter with different input types based on the data type.
+                            </p>
+                            
+                            <h3 class="text-xl font-semibold text-gray-900 mb-3">Filter Types</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                <div class="border border-gray-200 rounded-lg p-4">
+                                    <h4 class="font-semibold text-gray-900 mb-2">Text Filter</h4>
+                                    <p class="text-gray-600 text-sm mb-2">For text-based columns like names, descriptions</p>
+                                    <div class="bg-gray-900 rounded p-3">
+                                        <pre><code class="language-javascript">{
+  key: 'name',
+  title: 'Product Name',
+  filterable: true,
+  filterType: 'text',
+  placeholder: 'Search products...'
+}</code></pre>
+                                    </div>
+                                </div>
+
+                                <div class="border border-gray-200 rounded-lg p-4">
+                                    <h4 class="font-semibold text-gray-900 mb-2">Select Filter</h4>
+                                    <p class="text-gray-600 text-sm mb-2">For categorical data with predefined options</p>
+                                    <div class="bg-gray-900 rounded p-3">
+                                        <pre><code class="language-javascript">{
+  key: 'status',
+  title: 'Status',
+  filterable: true,
+  filterType: 'select',
+  filterOptions: [
+    { value: '', label: 'All Status' },
+    { value: 'active', label: 'Active' },
+    { value: 'inactive', label: 'Inactive' }
+  ]
+}</code></pre>
+                                    </div>
+                                </div>
+
+                                <div class="border border-gray-200 rounded-lg p-4">
+                                    <h4 class="font-semibold text-gray-900 mb-2">Date Filter</h4>
+                                    <p class="text-gray-600 text-sm mb-2">For date-based columns</p>
+                                    <div class="bg-gray-900 rounded p-3">
+                                        <pre><code class="language-javascript">{
+  key: 'created_at',
+  title: 'Created',
+  filterable: true,
+  filterType: 'date'
+}</code></pre>
+                                    </div>
+                                </div>
+
+                                <div class="border border-gray-200 rounded-lg p-4">
+                                    <h4 class="font-semibold text-gray-900 mb-2">Number Filter</h4>
+                                    <p class="text-gray-600 text-sm mb-2">For numeric columns like prices, quantities</p>
+                                    <div class="bg-gray-900 rounded p-3">
+                                        <pre><code class="language-javascript">{
+  key: 'price',
+  title: 'Price',
+  filterable: true,
+  filterType: 'number',
+  placeholder: 'Enter price...'
+}</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h3 class="text-xl font-semibold text-gray-900 mb-3">Complete Column Configuration</h3>
+                            <div class="bg-gray-900 rounded-lg p-6 mb-6">
+                                <pre><code class="language-javascript">const columns = ref([
+  {
+    key: 'id',
+    title: 'ID',
+    sortable: true,
+    filterable: true,
+    filterType: 'text',
+    width: '80px',
+    placeholder: 'Filter ID...'
+  },
+  {
+    key: 'name',
+    title: 'Product Name',
+    sortable: true,
+    filterable: true,
+    filterType: 'text',
+    placeholder: 'Search products...'
+  },
+  {
+    key: 'category',
+    title: 'Category',
+    type: 'badge',
+    sortable: true,
+    filterable: true,
+    filterType: 'select',
+    placeholder: 'Filter Category...',
+    filterOptions: [
+      { value: '', label: 'All Categories' },
+      { value: 'Electronics', label: 'Electronics' },
+      { value: 'Clothing', label: 'Clothing' },
+      { value: 'Books', label: 'Books' }
+    ]
+  },
+  {
+    key: 'price',
+    title: 'Price',
+    type: 'currency',
+    sortable: true,
+    filterable: true,
+    filterType: 'text',
+    align: 'right',
+    placeholder: 'Filter price...'
+  },
+  {
+    key: 'status',
+    title: 'Status',
+    type: 'badge',
+    sortable: true,
+    filterable: true,
+    filterType: 'select',
+    placeholder: 'Filter Status...',
+    filterOptions: [
+      { value: '', label: 'All Status' },
+      { value: 'active', label: 'Active' },
+      { value: 'inactive', label: 'Inactive' },
+      { value: 'pending', label: 'Pending' }
+    ]
+  }
+])</code></pre>
+                            </div>
+                        </section>
+
+                        <!-- Searchable Select Filters -->
+                        <section class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Searchable Select Filters</h2>
+                            <p class="text-gray-600 mb-4">
+                                Select filters with search functionality that allow users to search through options locally 
+                                before selecting a value.
+                            </p>
+                            
+                            <div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
+                                <h3 class="text-lg font-semibold text-green-900 mb-2">Key Features</h3>
+                                <ul class="list-disc list-inside text-green-800 space-y-1">
+                                    <li>Search through dropdown options locally</li>
+                                    <li>Keyboard navigation (arrow keys, enter, escape)</li>
+                                    <li>Clear selection functionality</li>
+                                    <li>Server request only on selection, not during search</li>
+                                    <li>Visual feedback for selected options</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-gray-900 rounded-lg p-6 mb-6">
+                                <pre><code class="language-javascript">// Searchable select configuration
+{
+  key: 'category',
+  title: 'Category',
+  filterable: true,
+  filterType: 'select',  // This creates a searchable select
+  placeholder: 'Filter Category...',
+  filterOptions: [
+    { value: '', label: 'All Categories' },
+    { value: 'Electronics', label: 'Electronics' },
+    { value: 'Home & Kitchen', label: 'Home & Kitchen' },
+    { value: 'Books', label: 'Books' },
+    { value: 'Sports', label: 'Sports' },
+    { value: 'Toys', label: 'Toys' }
+  ]
+}</code></pre>
+                            </div>
+
+                            <h3 class="text-xl font-semibold text-gray-900 mb-3">How It Works</h3>
+                            <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6">
+                                <ol class="list-decimal list-inside text-gray-600 space-y-2">
+                                    <li>User clicks on the select filter dropdown</li>
+                                    <li>Dropdown opens with search input and all options</li>
+                                    <li>User types to search through options (local filtering)</li>
+                                    <li>User selects an option by clicking or pressing Enter</li>
+                                    <li>Server request is sent with the selected value</li>
+                                    <li>Table updates immediately with filtered results</li>
+                                </ol>
+                            </div>
+                        </section>
+
+                        <!-- Server-Side Integration -->
+                        <section class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Server-Side Integration</h2>
+                            
+                            <h3 class="text-xl font-semibold text-gray-900 mb-3">Vue.js Event Handling</h3>
+                            <div class="bg-gray-900 rounded-lg p-6 mb-6">
+                                <pre><code class="language-javascript">// Handle all filter events
+async function handleFilter({ key, value, type }) {
+  console.log('Filter applied:', { key, value, type })
+  
+  // Update filters state
+  if (value === '' || value === null || value === undefined) {
+    delete currentFilters.value[key]
+  } else {
+    currentFilters.value[key] = { value, type: type || 'contains' }
+  }
+  
+  // Reset to first page when filtering
+  paginationInfo.value.currentPage = 1
+  
+  // Fetch filtered data
+  await fetchData()
+}
+
+// Build query parameters for API
+function buildQueryParams() {
+  const params = new URLSearchParams()
+  
+  // Add pagination
+  params.append('page', paginationInfo.value.currentPage)
+  params.append('per_page', paginationInfo.value.pageSize)
+  
+  // Add filters
+  Object.entries(currentFilters.value).forEach(([key, filter]) => {
+    if (filter.value) {
+      params.append(`filter[${key}]`, filter.value)
+      params.append(`filter_type[${key}]`, filter.type || 'contains')
+    }
+  })
+  
+  return params.toString()
+}</code></pre>
+                            </div>
+
+                            <h3 class="text-xl font-semibold text-gray-900 mb-3">Laravel Backend</h3>
+                            <div class="bg-gray-900 rounded-lg p-6 mb-6">
+                                <pre><code class="language-php">private function applyFilters($query, Request $request)
+{
+    $filters = $request->get('filter', []);
+    $filterTypes = $request->get('filter_type', []);
+    
+    foreach ($filters as $field => $value) {
+        if (empty($value)) continue;
+        
+        $type = $filterTypes[$field] ?? 'contains';
+        
+        switch ($type) {
+            case 'contains':
+                $query->where($field, 'LIKE', "%{$value}%");
+                break;
+            case 'equals':
+                $query->where($field, $value);
+                break;
+            case 'starts_with':
+                $query->where($field, 'LIKE', "{$value}%");
+                break;
+            case 'ends_with':
+                $query->where($field, 'LIKE', "%{$value}");
+                break;
+            case 'greater_than':
+                $query->where($field, '>', $value);
+                break;
+            case 'less_than':
+                $query->where($field, '<', $value);
+                break;
+            case 'date':
+                $query->whereDate($field, $value);
+                break;
+        }
+    }
+    
+    // Handle global search
+    if ($globalSearch = $request->get('search')) {
+        $query->where(function ($q) use ($globalSearch) {
+            $q->where('name', 'LIKE', "%{$globalSearch}%")
+              ->orWhere('description', 'LIKE', "%{$globalSearch}%");
+        });
+    }
+}</code></pre>
+                            </div>
+                        </section>
+
+                        <!-- API Parameters -->
+                        <section class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">API Parameters</h2>
+                            <p class="text-gray-600 mb-4">
+                                The following parameters are sent to your API when filters are applied:
+                            </p>
+                            
+                            <div class="bg-gray-900 rounded-lg p-6 mb-6">
+                                <pre><code class="language-bash"># Global search
+GET /api/products?search=laptop
+
+# Column filters
+GET /api/products?filter[name]=laptop&filter_type[name]=contains
+GET /api/products?filter[category]=Electronics&filter_type[category]=equals
+GET /api/products?filter[price]=100&filter_type[price]=greater_than
+
+# Multiple filters
+GET /api/products?filter[name]=laptop&filter_type[name]=contains&filter[category]=Electronics&filter_type[category]=equals
+
+# Combined with pagination and sorting
+GET /api/products?page=1&per_page=10&sort=name&direction=asc&filter[category]=Electronics&filter_type[category]=equals</code></pre>
+                            </div>
+                        </section>
+
+                        <!-- Performance Tips -->
+                        <section class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Performance Tips</h2>
+                            
+                            <div class="space-y-6">
+                                <div class="border border-gray-200 rounded-lg p-6">
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Debouncing</h3>
+                                    <p class="text-gray-600 mb-2">Text inputs are automatically debounced to prevent excessive API calls:</p>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1">
+                                        <li>Text filters: 300ms debounce</li>
+                                        <li>Select filters: Immediate (no debounce needed)</li>
+                                        <li>Date filters: Immediate</li>
+                                    </ul>
+                                </div>
+
+                                <div class="border border-gray-200 rounded-lg p-6">
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Database Optimization</h3>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1">
+                                        <li>Add indexes on frequently filtered columns</li>
+                                        <li>Use full-text search for complex text filtering</li>
+                                        <li>Consider using database views for complex filters</li>
+                                        <li>Implement query caching for static filter options</li>
+                                    </ul>
+                                </div>
+
+                                <div class="border border-gray-200 rounded-lg p-6">
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Frontend Optimization</h3>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1">
+                                        <li>Local filtering for searchable selects</li>
+                                        <li>Automatic page reset when filtering</li>
+                                        <li>Loading states during filter operations</li>
+                                        <li>Clear filter functionality</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Next Steps -->
+                        <section>
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Next Steps</h2>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <a href="searchable-select.html" class="block p-6 border border-gray-200 rounded-lg hover:border-indigo-300 transition-colors">
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Searchable Select</h3>
+                                    <p class="text-gray-600">Deep dive into searchable select filters with advanced features.</p>
+                                </a>
+                                <a href="additional-filters.html" class="block p-6 border border-gray-200 rounded-lg hover:border-indigo-300 transition-colors">
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Additional Filters</h3>
+                                    <p class="text-gray-600">Learn about filtering by non-visible fields like created_at.</p>
+                                </a>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="text-center text-gray-600">
+                <p>&copy; 2024 Vue DataTable Component. Built with Vue 3 and Tailwind CSS.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

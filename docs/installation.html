@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Installation - Vue DataTable Component</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="text-xl font-bold text-gray-900">Vue DataTable</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="index.html" class="text-gray-600 hover:text-gray-900">Documentation</a>
+                    <a href="https://github.com/your-repo/vue-datatable" class="text-gray-600 hover:text-gray-900">GitHub</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="flex">
+            <!-- Sidebar -->
+            <div class="w-64 flex-shrink-0">
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Documentation</h3>
+                    <nav class="space-y-2">
+                        <a href="index.html" class="block text-gray-600 hover:text-gray-900">Overview</a>
+                        <a href="#installation" class="block text-indigo-600 font-medium">Installation</a>
+                        <a href="basic-usage.html" class="block text-gray-600 hover:text-gray-900">Basic Usage</a>
+                        
+                        <div class="pt-4">
+                            <h4 class="text-sm font-semibold text-gray-900 mb-2">Features</h4>
+                            <div class="space-y-1 ml-4">
+                                <a href="server-side.html" class="block text-gray-600 hover:text-gray-900 text-sm">Server-Side</a>
+                                <a href="filtering.html" class="block text-gray-600 hover:text-gray-900 text-sm">Filtering</a>
+                                <a href="sorting.html" class="block text-gray-600 hover:text-gray-900 text-sm">Sorting</a>
+                                <a href="pagination.html" class="block text-gray-600 hover:text-gray-900 text-sm">Pagination</a>
+                                <a href="scrollable.html" class="block text-gray-600 hover:text-gray-900 text-sm">Scrollable</a>
+                                <a href="searchable-select.html" class="block text-gray-600 hover:text-gray-900 text-sm">Searchable Select</a>
+                                <a href="additional-filters.html" class="block text-gray-600 hover:text-gray-900 text-sm">Additional Filters</a>
+                                <a href="export.html" class="block text-gray-600 hover:text-gray-900 text-sm">Export</a>
+                                <a href="customization.html" class="block text-gray-600 hover:text-gray-900 text-sm">Customization</a>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="flex-1 ml-8">
+                <div class="bg-white rounded-lg shadow p-8">
+                    <h1 class="text-3xl font-bold text-gray-900 mb-6">Installation</h1>
+                    
+                    <div class="prose max-w-none">
+                        <!-- Prerequisites -->
+                        <section class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Prerequisites</h2>
+                            <p class="text-gray-600 mb-4">Before installing the Vue DataTable component, make sure you have:</p>
+                            <ul class="list-disc list-inside text-gray-600 space-y-2">
+                                <li>Vue.js 3.0 or higher</li>
+                                <li>Node.js 16.0 or higher</li>
+                                <li>Tailwind CSS (for styling)</li>
+                                <li>Heroicons (for icons)</li>
+                            </ul>
+                        </section>
+
+                        <!-- Method 1: Copy Components -->
+                        <section class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Method 1: Copy Components (Recommended)</h2>
+                            <p class="text-gray-600 mb-4">
+                                Since this is a custom component built for your project, the recommended approach is to copy the component files directly into your Vue.js project.
+                            </p>
+
+                            <h3 class="text-xl font-semibold text-gray-900 mb-3">Step 1: Copy Component Files</h3>
+                            <p class="text-gray-600 mb-4">Copy the following files to your project:</p>
+                            
+                            <div class="bg-gray-900 rounded-lg p-6 mb-4">
+                                <pre><code class="language-bash"># Create the DataTable directory
+mkdir -p src/components/DataTable
+
+# Copy all component files
+src/components/DataTable/
+├── DataTable.vue                 # Main DataTable component
+├── DataTableToolbar.vue          # Toolbar with search, export, etc.
+├── DataTablePagination.vue       # Pagination component
+├── DataTableCell.vue             # Individual cell renderer
+├── SearchableSelect.vue          # Searchable dropdown component
+├── AdditionalFilters.vue         # Additional filters component
+├── composables/
+│   └── useDataTable.js          # DataTable composable
+└── utils/
+    └── exportUtils.js           # Export utilities</code></pre>
+                            </div>
+
+                            <h3 class="text-xl font-semibold text-gray-900 mb-3">Step 2: Install Dependencies</h3>
+                            <div class="bg-gray-900 rounded-lg p-6 mb-4">
+                                <pre><code class="language-bash"># Install required dependencies
+npm install @heroicons/vue</code></pre>
+                            </div>
+
+                            <h3 class="text-xl font-semibold text-gray-900 mb-3">Step 3: Configure Tailwind CSS</h3>
+                            <p class="text-gray-600 mb-4">Make sure Tailwind CSS is properly configured in your project:</p>
+                            
+                            <div class="bg-gray-900 rounded-lg p-6 mb-4">
+                                <pre><code class="language-javascript">// tailwind.config.js
+module.exports = {
+  content: [
+    "./index.html",
+    "./src/**/*.{vue,js,ts,jsx,tsx}",
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}</code></pre>
+                            </div>
+
+                            <div class="bg-gray-900 rounded-lg p-6 mb-4">
+                                <pre><code class="language-css">/* src/style.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;</code></pre>
+                            </div>
+                        </section>
+
+                        <!-- Method 2: NPM Package -->
+                        <section class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Method 2: NPM Package (Future)</h2>
+                            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
+                                <p class="text-yellow-800">
+                                    <strong>Note:</strong> This component is not yet published as an NPM package. 
+                                    Use Method 1 for now. NPM package coming soon!
+                                </p>
+                            </div>
+                            
+                            <div class="bg-gray-900 rounded-lg p-6 mb-4">
+                                <pre><code class="language-bash"># Future NPM installation (not available yet)
+npm install vue-datatable-component</code></pre>
+                            </div>
+                        </section>
+
+                        <!-- Verification -->
+                        <section class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Verify Installation</h2>
+                            <p class="text-gray-600 mb-4">Create a simple test to verify the installation:</p>
+                            
+                            <div class="bg-gray-900 rounded-lg p-6 mb-4">
+                                <pre><code class="language-vue">&lt;!-- src/components/TestDataTable.vue --&gt;
+&lt;template&gt;
+  &lt;div class="p-8"&gt;
+    &lt;h1 class="text-2xl font-bold mb-4"&gt;DataTable Test&lt;/h1&gt;
+    &lt;DataTable
+      :data="testData"
+      :columns="testColumns"
+      :config="testConfig"
+    /&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script setup&gt;
+import { ref } from 'vue'
+import DataTable from './DataTable/DataTable.vue'
+
+const testData = ref([
+  { id: 1, name: 'Product 1', price: 100 },
+  { id: 2, name: 'Product 2', price: 200 },
+  { id: 3, name: 'Product 3', price: 300 }
+])
+
+const testColumns = ref([
+  { key: 'id', title: 'ID', sortable: true },
+  { key: 'name', title: 'Name', sortable: true },
+  { key: 'price', title: 'Price', type: 'currency', sortable: true }
+])
+
+const testConfig = ref({
+  pagination: { enabled: true, pageSize: 10 },
+  filtering: { enabled: true },
+  ui: { striped: true, hover: true }
+})
+&lt;/script&gt;</code></pre>
+                            </div>
+                        </section>
+
+                        <!-- Troubleshooting -->
+                        <section class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Troubleshooting</h2>
+                            
+                            <div class="space-y-6">
+                                <div class="border border-gray-200 rounded-lg p-6">
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Icons not showing</h3>
+                                    <p class="text-gray-600 mb-2">Make sure Heroicons is installed:</p>
+                                    <div class="bg-gray-900 rounded-lg p-4">
+                                        <pre><code class="language-bash">npm install @heroicons/vue</code></pre>
+                                    </div>
+                                </div>
+
+                                <div class="border border-gray-200 rounded-lg p-6">
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Styles not applied</h3>
+                                    <p class="text-gray-600 mb-2">Ensure Tailwind CSS is properly configured and imported in your main.js:</p>
+                                    <div class="bg-gray-900 rounded-lg p-4">
+                                        <pre><code class="language-javascript">// main.js
+import './style.css' // Make sure this includes Tailwind</code></pre>
+                                    </div>
+                                </div>
+
+                                <div class="border border-gray-200 rounded-lg p-6">
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Component not found</h3>
+                                    <p class="text-gray-600 mb-2">Check the import path in your component:</p>
+                                    <div class="bg-gray-900 rounded-lg p-4">
+                                        <pre><code class="language-javascript">// Adjust the path based on your project structure
+import DataTable from '@/components/DataTable/DataTable.vue'</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Next Steps -->
+                        <section>
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Next Steps</h2>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <a href="basic-usage.html" class="block p-6 border border-gray-200 rounded-lg hover:border-indigo-300 transition-colors">
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Basic Usage</h3>
+                                    <p class="text-gray-600">Learn how to use the DataTable component with basic configuration.</p>
+                                </a>
+                                <a href="server-side.html" class="block p-6 border border-gray-200 rounded-lg hover:border-indigo-300 transition-colors">
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Server-Side Integration</h3>
+                                    <p class="text-gray-600">Set up server-side processing with Laravel APIs.</p>
+                                </a>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="text-center text-gray-600">
+                <p>&copy; 2024 Vue DataTable Component. Built with Vue 3 and Tailwind CSS.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

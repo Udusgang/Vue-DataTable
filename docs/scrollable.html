@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scrollable Tables - Vue DataTable Component</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="text-xl font-bold text-gray-900">Vue DataTable</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="index.html" class="text-gray-600 hover:text-gray-900">Documentation</a>
+                    <a href="https://github.com/your-repo/vue-datatable" class="text-gray-600 hover:text-gray-900">GitHub</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="flex">
+            <!-- Sidebar -->
+            <div class="w-64 flex-shrink-0">
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Documentation</h3>
+                    <nav class="space-y-2">
+                        <a href="index.html" class="block text-gray-600 hover:text-gray-900">Overview</a>
+                        <a href="installation.html" class="block text-gray-600 hover:text-gray-900">Installation</a>
+                        <a href="basic-usage.html" class="block text-gray-600 hover:text-gray-900">Basic Usage</a>
+                        
+                        <div class="pt-4">
+                            <h4 class="text-sm font-semibold text-gray-900 mb-2">Features</h4>
+                            <div class="space-y-1 ml-4">
+                                <a href="server-side.html" class="block text-gray-600 hover:text-gray-900 text-sm">Server-Side</a>
+                                <a href="filtering.html" class="block text-gray-600 hover:text-gray-900 text-sm">Filtering</a>
+                                <a href="sorting.html" class="block text-gray-600 hover:text-gray-900 text-sm">Sorting</a>
+                                <a href="pagination.html" class="block text-gray-600 hover:text-gray-900 text-sm">Pagination</a>
+                                <a href="#scrollable" class="block text-indigo-600 font-medium text-sm">Scrollable</a>
+                                <a href="searchable-select.html" class="block text-gray-600 hover:text-gray-900 text-sm">Searchable Select</a>
+                                <a href="additional-filters.html" class="block text-gray-600 hover:text-gray-900 text-sm">Additional Filters</a>
+                                <a href="export.html" class="block text-gray-600 hover:text-gray-900 text-sm">Export</a>
+                                <a href="customization.html" class="block text-gray-600 hover:text-gray-900 text-sm">Customization</a>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="flex-1 ml-8">
+                <div class="bg-white rounded-lg shadow p-8">
+                    <h1 class="text-3xl font-bold text-gray-900 mb-6">Scrollable Tables</h1>
+                    
+                    <div class="prose max-w-none">
+                        <!-- Overview -->
+                        <section class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Overview</h2>
+                            <p class="text-gray-600 mb-4">
+                                Scrollable tables allow you to handle large datasets and wide tables efficiently by providing 
+                                horizontal and vertical scrolling capabilities with sticky column support.
+                            </p>
+                            
+                            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                                <h3 class="text-lg font-semibold text-blue-900 mb-2">Key Features</h3>
+                                <ul class="list-disc list-inside text-blue-800 space-y-1">
+                                    <li>Dynamic height with maximum height constraints</li>
+                                    <li>Horizontal scrolling for wide tables</li>
+                                    <li>Sticky columns (left and right)</li>
+                                    <li>Custom scrollbar styling</li>
+                                    <li>Responsive design</li>
+                                    <li>Shadow effects for sticky columns</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <!-- Basic Configuration -->
+                        <section class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Basic Configuration</h2>
+                            
+                            <h3 class="text-xl font-semibold text-gray-900 mb-3">Enable Scrollable Table</h3>
+                            <div class="bg-gray-900 rounded-lg p-6 mb-6">
+                                <pre><code class="language-vue">&lt;template&gt;
+  &lt;DataTable
+    :data="products"
+    :columns="columns"
+    :config="config"
+  /&gt;
+&lt;/template&gt;
+
+&lt;script setup&gt;
+import { ref } from 'vue'
+import DataTable from '@/components/DataTable/DataTable.vue'
+
+const config = ref({
+  ui: {
+    scrollable: {
+      enabled: true,
+      maxHeight: '500px',  // Maximum height before vertical scroll
+      width: '100%',       // Full width, horizontal scroll when needed
+      stickyColumns: {
+        left: ['id'],      // Stick ID column to the left
+        right: []          // No right sticky columns
+      }
+    }
+  }
+})
+&lt;/script&gt;</code></pre>
+                            </div>
+                        </section>
+
+                        <!-- Vertical Scrolling -->
+                        <section class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Vertical Scrolling</h2>
+                            <p class="text-gray-600 mb-4">
+                                Control the table height and enable vertical scrolling when content exceeds the specified height.
+                            </p>
+                            
+                            <h3 class="text-xl font-semibold text-gray-900 mb-3">Dynamic Height</h3>
+                            <div class="bg-gray-900 rounded-lg p-6 mb-6">
+                                <pre><code class="language-javascript">const config = ref({
+  ui: {
+    scrollable: {
+      enabled: true,
+      maxHeight: '500px'  // Table grows naturally up to 500px, then scrolls
+    }
+  }
+})
+
+// Alternative: Fixed height
+const config = ref({
+  ui: {
+    scrollable: {
+      enabled: true,
+      height: '400px'     // Fixed height, always shows scrollbar if needed
+    }
+  }
+})</code></pre>
+                            </div>
+
+                            <h3 class="text-xl font-semibold text-gray-900 mb-3">Height Options</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                <div class="border border-gray-200 rounded-lg p-4">
+                                    <h4 class="font-semibold text-gray-900 mb-2">maxHeight (Recommended)</h4>
+                                    <p class="text-gray-600 text-sm mb-2">Table grows naturally with content up to the maximum height</p>
+                                    <ul class="text-xs text-gray-500 space-y-1">
+                                        <li>• No empty space with few rows</li>
+                                        <li>• Scrollbar appears when needed</li>
+                                        <li>• Better user experience</li>
+                                    </ul>
+                                </div>
+
+                                <div class="border border-gray-200 rounded-lg p-4">
+                                    <h4 class="font-semibold text-gray-900 mb-2">height (Fixed)</h4>
+                                    <p class="text-gray-600 text-sm mb-2">Table always has the specified height</p>
+                                    <ul class="text-xs text-gray-500 space-y-1">
+                                        <li>• Consistent table height</li>
+                                        <li>• May show empty space</li>
+                                        <li>• Always shows scrollbar area</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Horizontal Scrolling -->
+                        <section class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Horizontal Scrolling</h2>
+                            <p class="text-gray-600 mb-4">
+                                Handle wide tables with many columns by enabling horizontal scrolling.
+                            </p>
+                            
+                            <div class="bg-gray-900 rounded-lg p-6 mb-6">
+                                <pre><code class="language-javascript">const config = ref({
+  ui: {
+    scrollable: {
+      enabled: true,
+      width: '100%',      // Full container width
+      maxHeight: '500px'
+    }
+  }
+})
+
+// Column width configuration
+const columns = ref([
+  {
+    key: 'id',
+    title: 'ID',
+    width: '80px',      // Fixed width
+    minWidth: '60px'    // Minimum width
+  },
+  {
+    key: 'name',
+    title: 'Product Name',
+    width: '200px',
+    minWidth: '150px'
+  },
+  {
+    key: 'description',
+    title: 'Description',
+    width: '300px',     // Wide column
+    minWidth: '200px'
+  },
+  {
+    key: 'category',
+    title: 'Category',
+    width: '120px'
+  },
+  {
+    key: 'price',
+    title: 'Price',
+    width: '100px',
+    align: 'right'
+  }
+])</code></pre>
+                            </div>
+                        </section>
+
+                        <!-- Sticky Columns -->
+                        <section class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Sticky Columns</h2>
+                            <p class="text-gray-600 mb-4">
+                                Keep important columns visible while scrolling horizontally by making them sticky.
+                            </p>
+                            
+                            <h3 class="text-xl font-semibold text-gray-900 mb-3">Left Sticky Columns</h3>
+                            <div class="bg-gray-900 rounded-lg p-6 mb-6">
+                                <pre><code class="language-javascript">const config = ref({
+  ui: {
+    scrollable: {
+      enabled: true,
+      maxHeight: '500px',
+      stickyColumns: {
+        left: ['id', 'name'],  // ID and Name columns stick to the left
+        right: []
+      }
+    }
+  }
+})</code></pre>
+                            </div>
+
+                            <h3 class="text-xl font-semibold text-gray-900 mb-3">Right Sticky Columns</h3>
+                            <div class="bg-gray-900 rounded-lg p-6 mb-6">
+                                <pre><code class="language-javascript">const config = ref({
+  ui: {
+    scrollable: {
+      enabled: true,
+      maxHeight: '500px',
+      stickyColumns: {
+        left: ['id'],
+        right: ['actions', 'status']  // Actions and Status stick to the right
+      }
+    }
+  }
+})</code></pre>
+                            </div>
+
+                            <h3 class="text-xl font-semibold text-gray-900 mb-3">Both Left and Right Sticky</h3>
+                            <div class="bg-gray-900 rounded-lg p-6 mb-6">
+                                <pre><code class="language-javascript">const config = ref({
+  ui: {
+    scrollable: {
+      enabled: true,
+      maxHeight: '500px',
+      stickyColumns: {
+        left: ['id', 'name'],        // Important info on the left
+        right: ['actions', 'status'] // Actions on the right
+      }
+    }
+  }
+})</code></pre>
+                            </div>
+                        </section>
+
+                        <!-- Custom Scrollbar Styling -->
+                        <section class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Custom Scrollbar Styling</h2>
+                            <p class="text-gray-600 mb-4">
+                                The component includes custom scrollbar styling that matches your design system.
+                            </p>
+                            
+                            <div class="bg-gray-900 rounded-lg p-6 mb-6">
+                                <pre><code class="language-css">/* Built-in scrollbar styles */
+.datatable-wrapper::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.datatable-wrapper::-webkit-scrollbar-track {
+  background-color: #f3f4f6;
+  border-radius: 4px;
+}
+
+.datatable-wrapper::-webkit-scrollbar-thumb {
+  background-color: #9ca3af;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.datatable-wrapper::-webkit-scrollbar-thumb:hover {
+  background-color: #6b7280;
+}
+
+.datatable-wrapper::-webkit-scrollbar-corner {
+  background-color: #f3f4f6;
+}</code></pre>
+                            </div>
+
+                            <h3 class="text-xl font-semibold text-gray-900 mb-3">Customize Scrollbar Colors</h3>
+                            <div class="bg-gray-900 rounded-lg p-6 mb-6">
+                                <pre><code class="language-css">/* Custom scrollbar theme */
+.datatable-wrapper::-webkit-scrollbar-track {
+  background-color: #e5e7eb; /* Light gray track */
+}
+
+.datatable-wrapper::-webkit-scrollbar-thumb {
+  background-color: #6366f1; /* Indigo thumb */
+}
+
+.datatable-wrapper::-webkit-scrollbar-thumb:hover {
+  background-color: #4f46e5; /* Darker indigo on hover */
+}</code></pre>
+                            </div>
+                        </section>
+
+                        <!-- Complete Example -->
+                        <section class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Complete Example</h2>
+                            <p class="text-gray-600 mb-4">
+                                Here's a complete example with all scrollable features enabled:
+                            </p>
+                            
+                            <div class="bg-gray-900 rounded-lg p-6 mb-6">
+                                <pre><code class="language-vue">&lt;template&gt;
+  &lt;div class="p-6"&gt;
+    &lt;h1 class="text-2xl font-bold mb-4"&gt;Scrollable DataTable&lt;/h1&gt;
+    &lt;DataTable
+      :data="products"
+      :columns="columns"
+      :config="config"
+      server-side
+      @filter="handleFilter"
+      @sort="handleSort"
+      @paginate="handlePaginate"
+    /&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script setup&gt;
+import { ref } from 'vue'
+import DataTable from '@/components/DataTable/DataTable.vue'
+
+const products = ref([])
+
+const columns = ref([
+  {
+    key: 'id',
+    title: 'ID',
+    sortable: true,
+    filterable: true,
+    width: '80px',
+    align: 'center'
+  },
+  {
+    key: 'name',
+    title: 'Product Name',
+    sortable: true,
+    filterable: true,
+    filterType: 'text',
+    width: '200px',
+    minWidth: '150px'
+  },
+  {
+    key: 'description',
+    title: 'Description',
+    width: '300px',
+    minWidth: '200px'
+  },
+  {
+    key: 'category',
+    title: 'Category',
+    type: 'badge',
+    sortable: true,
+    filterable: true,
+    filterType: 'select',
+    width: '120px',
+    filterOptions: [
+      { value: '', label: 'All Categories' },
+      { value: 'Electronics', label: 'Electronics' },
+      { value: 'Clothing', label: 'Clothing' },
+      { value: 'Books', label: 'Books' }
+    ]
+  },
+  {
+    key: 'price',
+    title: 'Price',
+    type: 'currency',
+    sortable: true,
+    filterable: true,
+    width: '100px',
+    align: 'right'
+  },
+  {
+    key: 'stock',
+    title: 'Stock',
+    type: 'number',
+    sortable: true,
+    width: '80px',
+    align: 'center'
+  },
+  {
+    key: 'status',
+    title: 'Status',
+    type: 'badge',
+    sortable: true,
+    filterable: true,
+    filterType: 'select',
+    width: '100px',
+    filterOptions: [
+      { value: '', label: 'All Status' },
+      { value: 'active', label: 'Active' },
+      { value: 'inactive', label: 'Inactive' }
+    ]
+  },
+  {
+    key: 'created_at',
+    title: 'Created',
+    type: 'date',
+    sortable: true,
+    width: '120px'
+  },
+  {
+    key: 'actions',
+    title: 'Actions',
+    type: 'actions',
+    width: '120px',
+    align: 'center'
+  }
+])
+
+const config = ref({
+  pagination: {
+    enabled: true,
+    pageSize: 25,
+    pageSizes: [10, 25, 50, 100]
+  },
+  filtering: {
+    enabled: true,
+    global: true,
+    column: true,
+    additionalFilters: {
+      enabled: true
+    }
+  },
+  ui: {
+    scrollable: {
+      enabled: true,
+      maxHeight: '500px',    // Dynamic height up to 500px
+      width: '100%',         // Full width
+      stickyColumns: {
+        left: ['id', 'name'], // Stick ID and Name to left
+        right: ['actions']    // Stick Actions to right
+      }
+    },
+    striped: true,
+    hover: true
+  }
+})
+
+// Event handlers
+async function handleFilter({ key, value, type }) {
+  // Handle filtering
+}
+
+async function handleSort({ column, direction }) {
+  // Handle sorting
+}
+
+async function handlePaginate({ page, pageSize }) {
+  // Handle pagination
+}
+&lt;/script&gt;</code></pre>
+                            </div>
+                        </section>
+
+                        <!-- Best Practices -->
+                        <section class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Best Practices</h2>
+                            
+                            <div class="space-y-6">
+                                <div class="border border-gray-200 rounded-lg p-6">
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Column Width Management</h3>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1">
+                                        <li>Set explicit widths for important columns</li>
+                                        <li>Use minWidth to prevent columns from becoming too narrow</li>
+                                        <li>Keep sticky columns relatively narrow</li>
+                                        <li>Consider responsive breakpoints for column visibility</li>
+                                    </ul>
+                                </div>
+
+                                <div class="border border-gray-200 rounded-lg p-6">
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Sticky Column Selection</h3>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1">
+                                        <li>Stick essential identification columns (ID, Name) to the left</li>
+                                        <li>Stick action columns to the right</li>
+                                        <li>Limit the number of sticky columns (2-3 max)</li>
+                                        <li>Ensure sticky columns have fixed widths</li>
+                                    </ul>
+                                </div>
+
+                                <div class="border border-gray-200 rounded-lg p-6">
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Performance Considerations</h3>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1">
+                                        <li>Use maxHeight instead of fixed height when possible</li>
+                                        <li>Implement virtual scrolling for very large datasets</li>
+                                        <li>Consider pagination to limit rows per page</li>
+                                        <li>Optimize column rendering for better scroll performance</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Browser Support -->
+                        <section class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Browser Support</h2>
+                            <p class="text-gray-600 mb-4">
+                                Scrollable tables work in all modern browsers with the following considerations:
+                            </p>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="border border-green-200 bg-green-50 rounded-lg p-4">
+                                    <h3 class="text-lg font-semibold text-green-900 mb-2">Full Support</h3>
+                                    <ul class="text-green-800 space-y-1">
+                                        <li>• Chrome 88+</li>
+                                        <li>• Firefox 85+</li>
+                                        <li>• Safari 14+</li>
+                                        <li>• Edge 88+</li>
+                                    </ul>
+                                </div>
+
+                                <div class="border border-yellow-200 bg-yellow-50 rounded-lg p-4">
+                                    <h3 class="text-lg font-semibold text-yellow-900 mb-2">Limited Support</h3>
+                                    <ul class="text-yellow-800 space-y-1">
+                                        <li>• IE 11: Basic scrolling only</li>
+                                        <li>• Older browsers: No custom scrollbars</li>
+                                        <li>• Mobile: Touch scrolling supported</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Next Steps -->
+                        <section>
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Next Steps</h2>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <a href="filtering.html" class="block p-6 border border-gray-200 rounded-lg hover:border-indigo-300 transition-colors">
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Advanced Filtering</h3>
+                                    <p class="text-gray-600">Learn about column filters and searchable selects in scrollable tables.</p>
+                                </a>
+                                <a href="customization.html" class="block p-6 border border-gray-200 rounded-lg hover:border-indigo-300 transition-colors">
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Customization</h3>
+                                    <p class="text-gray-600">Customize the appearance and behavior of scrollable tables.</p>
+                                </a>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="text-center text-gray-600">
+                <p>&copy; 2024 Vue DataTable Component. Built with Vue 3 and Tailwind CSS.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

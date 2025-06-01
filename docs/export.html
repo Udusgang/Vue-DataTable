@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Export Features - Vue DataTable Component</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="text-xl font-bold text-gray-900">Vue DataTable</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="index.html" class="text-gray-600 hover:text-gray-900">Documentation</a>
+                    <a href="https://github.com/your-repo/vue-datatable" class="text-gray-600 hover:text-gray-900">GitHub</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="flex">
+            <!-- Sidebar -->
+            <div class="w-64 flex-shrink-0">
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Documentation</h3>
+                    <nav class="space-y-2">
+                        <a href="index.html" class="block text-gray-600 hover:text-gray-900">Overview</a>
+                        <a href="installation.html" class="block text-gray-600 hover:text-gray-900">Installation</a>
+                        <a href="basic-usage.html" class="block text-gray-600 hover:text-gray-900">Basic Usage</a>
+                        
+                        <div class="pt-4">
+                            <h4 class="text-sm font-semibold text-gray-900 mb-2">Features</h4>
+                            <div class="space-y-1 ml-4">
+                                <a href="server-side.html" class="block text-gray-600 hover:text-gray-900 text-sm">Server-Side</a>
+                                <a href="filtering.html" class="block text-gray-600 hover:text-gray-900 text-sm">Filtering</a>
+                                <a href="sorting.html" class="block text-gray-600 hover:text-gray-900 text-sm">Sorting</a>
+                                <a href="pagination.html" class="block text-gray-600 hover:text-gray-900 text-sm">Pagination</a>
+                                <a href="scrollable.html" class="block text-gray-600 hover:text-gray-900 text-sm">Scrollable</a>
+                                <a href="searchable-select.html" class="block text-gray-600 hover:text-gray-900 text-sm">Searchable Select</a>
+                                <a href="additional-filters.html" class="block text-gray-600 hover:text-gray-900 text-sm">Additional Filters</a>
+                                <a href="#export" class="block text-indigo-600 font-medium text-sm">Export</a>
+                                <a href="customization.html" class="block text-gray-600 hover:text-gray-900 text-sm">Customization</a>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="flex-1 ml-8">
+                <div class="bg-white rounded-lg shadow p-8">
+                    <h1 class="text-3xl font-bold text-gray-900 mb-6">Export Features</h1>
+                    
+                    <div class="prose max-w-none">
+                        <!-- Overview -->
+                        <section class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Overview</h2>
+                            <p class="text-gray-600 mb-4">
+                                The DataTable component provides comprehensive export functionality, allowing users to export 
+                                table data in multiple formats including CSV, Excel, and JSON. Export respects current filters 
+                                and can be customized for different use cases.
+                            </p>
+                            
+                            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                                <h3 class="text-lg font-semibold text-blue-900 mb-2">Supported Formats</h3>
+                                <ul class="list-disc list-inside text-blue-800 space-y-1">
+                                    <li><strong>CSV:</strong> Comma-separated values for spreadsheet applications</li>
+                                    <li><strong>Excel:</strong> Native Excel format (.xlsx) with formatting</li>
+                                    <li><strong>JSON:</strong> JavaScript Object Notation for developers</li>
+                                    <li><strong>Print:</strong> Print-friendly table layout</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <!-- Basic Configuration -->
+                        <section class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Basic Configuration</h2>
+                            
+                            <h3 class="text-xl font-semibold text-gray-900 mb-3">Enable Export Features</h3>
+                            <div class="bg-gray-900 rounded-lg p-6 mb-6">
+                                <pre><code class="language-vue">&lt;template&gt;
+  &lt;DataTable
+    :data="products"
+    :columns="columns"
+    :config="config"
+    @export="handleExport"
+  /&gt;
+&lt;/template&gt;
+
+&lt;script setup&gt;
+import { ref } from 'vue'
+import DataTable from '@/components/DataTable/DataTable.vue'
+
+const config = ref({
+  export: {
+    enabled: true,
+    formats: ['csv', 'excel', 'json'],  // Available export formats
+    filename: 'products-export',        // Default filename (without extension)
+    includeFiltered: true,              // Export only filtered data
+    includeHeaders: true,               // Include column headers
+    dateFormat: 'YYYY-MM-DD'           // Date format in exports
+  }
+})
+
+// Handle export events
+function handleExport({ format, filename, data }) {
+  console.log('Export requested:', { format, filename, dataLength: data.length })
+  // Custom export logic if needed
+  // The component handles the actual export automatically
+}
+&lt;/script&gt;</code></pre>
+                            </div>
+                        </section>
+
+                        <!-- Export Formats -->
+                        <section class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Export Formats</h2>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                <div class="border border-gray-200 rounded-lg p-6">
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-3">CSV Export</h3>
+                                    <p class="text-gray-600 text-sm mb-3">Comma-separated values format</p>
+                                    <ul class="text-sm text-gray-500 space-y-1">
+                                        <li>• Compatible with Excel, Google Sheets</li>
+                                        <li>• Lightweight and fast</li>
+                                        <li>• UTF-8 encoding support</li>
+                                        <li>• Automatic escaping of special characters</li>
+                                    </ul>
+                                    <div class="mt-3 bg-gray-100 rounded p-2">
+                                        <code class="text-xs">products-export.csv</code>
+                                    </div>
+                                </div>
+
+                                <div class="border border-gray-200 rounded-lg p-6">
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-3">Excel Export</h3>
+                                    <p class="text-gray-600 text-sm mb-3">Native Excel format (.xlsx)</p>
+                                    <ul class="text-sm text-gray-500 space-y-1">
+                                        <li>• Rich formatting support</li>
+                                        <li>• Multiple worksheets</li>
+                                        <li>• Data type preservation</li>
+                                        <li>• Custom styling options</li>
+                                    </ul>
+                                    <div class="mt-3 bg-gray-100 rounded p-2">
+                                        <code class="text-xs">products-export.xlsx</code>
+                                    </div>
+                                </div>
+
+                                <div class="border border-gray-200 rounded-lg p-6">
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-3">JSON Export</h3>
+                                    <p class="text-gray-600 text-sm mb-3">JavaScript Object Notation</p>
+                                    <ul class="text-sm text-gray-500 space-y-1">
+                                        <li>• Developer-friendly format</li>
+                                        <li>• Preserves data structure</li>
+                                        <li>• API integration ready</li>
+                                        <li>• Nested object support</li>
+                                    </ul>
+                                    <div class="mt-3 bg-gray-100 rounded p-2">
+                                        <code class="text-xs">products-export.json</code>
+                                    </div>
+                                </div>
+
+                                <div class="border border-gray-200 rounded-lg p-6">
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-3">Print Export</h3>
+                                    <p class="text-gray-600 text-sm mb-3">Print-optimized table layout</p>
+                                    <ul class="text-sm text-gray-500 space-y-1">
+                                        <li>• Clean print layout</li>
+                                        <li>• Page break optimization</li>
+                                        <li>• Header/footer support</li>
+                                        <li>• Responsive column sizing</li>
+                                    </ul>
+                                    <div class="mt-3 bg-gray-100 rounded p-2">
+                                        <code class="text-xs">Browser print dialog</code>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Advanced Configuration -->
+                        <section class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Advanced Configuration</h2>
+                            
+                            <h3 class="text-xl font-semibold text-gray-900 mb-3">Custom Export Settings</h3>
+                            <div class="bg-gray-900 rounded-lg p-6 mb-6">
+                                <pre><code class="language-javascript">const config = ref({
+  export: {
+    enabled: true,
+    formats: ['csv', 'excel', 'json'],
+    
+    // Filename configuration
+    filename: 'products-export',
+    includeTimestamp: true,  // Adds timestamp to filename
+    
+    // Data configuration
+    includeFiltered: true,   // Export only filtered/visible data
+    includeHeaders: true,    // Include column headers
+    includeHidden: false,    // Exclude hidden columns
+    
+    // Format-specific options
+    csv: {
+      delimiter: ',',        // CSV delimiter
+      encoding: 'utf-8',     // File encoding
+      bom: true             // Include BOM for Excel compatibility
+    },
+    
+    excel: {
+      sheetName: 'Products', // Worksheet name
+      author: 'DataTable',   // Document author
+      formatting: true       // Apply cell formatting
+    },
+    
+    json: {
+      pretty: true,          // Pretty-print JSON
+      includeMetadata: false // Include export metadata
+    }
+  }
+})</code></pre>
+                            </div>
+
+                            <h3 class="text-xl font-semibold text-gray-900 mb-3">Column-Specific Export Settings</h3>
+                            <div class="bg-gray-900 rounded-lg p-6 mb-6">
+                                <pre><code class="language-javascript">const columns = ref([
+  {
+    key: 'id',
+    title: 'ID',
+    exportable: true,        // Include in exports
+    exportTitle: 'Product ID' // Custom export header
+  },
+  {
+    key: 'name',
+    title: 'Product Name',
+    exportable: true,
+    exportFormatter: (value) => value.toUpperCase() // Custom export formatting
+  },
+  {
+    key: 'price',
+    title: 'Price',
+    type: 'currency',
+    exportable: true,
+    exportFormat: 'number'   // Export as number instead of formatted currency
+  },
+  {
+    key: 'internal_notes',
+    title: 'Internal Notes',
+    exportable: false        // Exclude from exports
+  }
+])</code></pre>
+                            </div>
+                        </section>
+
+                        <!-- Custom Export Logic -->
+                        <section class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Custom Export Logic</h2>
+                            
+                            <h3 class="text-xl font-semibold text-gray-900 mb-3">Server-Side Export</h3>
+                            <div class="bg-gray-900 rounded-lg p-6 mb-6">
+                                <pre><code class="language-vue">&lt;script setup&gt;
+// Custom export handler for server-side exports
+async function handleExport({ format, filename, data }) {
+  console.log('Export requested:', { format, filename })
+  
+  if (format === 'excel' && data.length > 1000) {
+    // For large datasets, use server-side export
+    await exportFromServer(format, filename)
+  } else {
+    // Use client-side export for smaller datasets
+    // Component handles this automatically
+  }
+}
+
+async function exportFromServer(format, filename) {
+  try {
+    // Build current filters and parameters
+    const params = buildQueryParams()
+    params.append('export_format', format)
+    params.append('export_filename', filename)
+    
+    // Request export from server
+    const response = await fetch(`/api/products/export?${params}`)
+    
+    if (response.ok) {
+      // Download the file
+      const blob = await response.blob()
+      const url = window.URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `${filename}.${format === 'excel' ? 'xlsx' : format}`
+      document.body.appendChild(a)
+      a.click()
+      window.URL.revokeObjectURL(url)
+      document.body.removeChild(a)
+    }
+  } catch (error) {
+    console.error('Export failed:', error)
+  }
+}
+&lt;/script&gt;</code></pre>
+                            </div>
+
+                            <h3 class="text-xl font-semibold text-gray-900 mb-3">Laravel Server-Side Export</h3>
+                            <div class="bg-gray-900 rounded-lg p-6 mb-6">
+                                <pre><code class="language-php">&lt;?php
+
+namespace App\Http\Controllers\Api;
+
+use App\Http\Controllers\Controller;
+use App\Models\Product;
+use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ProductsExport;
+
+class ProductController extends Controller
+{
+    public function export(Request $request)
+    {
+        $format = $request->get('export_format', 'csv');
+        $filename = $request->get('export_filename', 'products-export');
+        
+        // Build query with filters
+        $query = Product::query();
+        $this->applyFilters($query, $request);
+        $this->applySorting($query, $request);
+        
+        // Get all data (no pagination for export)
+        $products = $query->get();
+        
+        switch ($format) {
+            case 'excel':
+                return Excel::download(
+                    new ProductsExport($products), 
+                    $filename . '.xlsx'
+                );
+                
+            case 'csv':
+                return Excel::download(
+                    new ProductsExport($products), 
+                    $filename . '.csv',
+                    \Maatwebsite\Excel\Excel::CSV
+                );
+                
+            case 'json':
+                return response()->json($products)
+                    ->header('Content-Disposition', 'attachment; filename="' . $filename . '.json"');
+                    
+            default:
+                return response()->json(['error' => 'Unsupported format'], 400);
+        }
+    }
+}
+
+// ProductsExport class
+namespace App\Exports;
+
+use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithMapping;
+
+class ProductsExport implements FromCollection, WithHeadings, WithMapping
+{
+    protected $products;
+    
+    public function __construct($products)
+    {
+        $this->products = $products;
+    }
+    
+    public function collection()
+    {
+        return $this->products;
+    }
+    
+    public function headings(): array
+    {
+        return [
+            'ID',
+            'Product Name',
+            'Category',
+            'Price',
+            'Stock',
+            'Status',
+            'Created At'
+        ];
+    }
+    
+    public function map($product): array
+    {
+        return [
+            $product->id,
+            $product->name,
+            $product->category,
+            $product->price,
+            $product->stock,
+            $product->status,
+            $product->created_at->format('Y-m-d H:i:s')
+        ];
+    }
+}</code></pre>
+                            </div>
+                        </section>
+
+                        <!-- Export Utils -->
+                        <section class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Export Utilities</h2>
+                            <p class="text-gray-600 mb-4">
+                                The component includes utility functions for handling different export formats.
+                            </p>
+                            
+                            <div class="bg-gray-900 rounded-lg p-6 mb-6">
+                                <pre><code class="language-javascript">// utils/exportUtils.js - Built-in export functions
+
+// CSV Export
+export function exportToCSV(data, filename, options = {}) {
+  const {
+    delimiter = ',',
+    includeHeaders = true,
+    encoding = 'utf-8'
+  } = options
+  
+  // Convert data to CSV format
+  const csvContent = convertToCSV(data, delimiter, includeHeaders)
+  
+  // Create and download file
+  downloadFile(csvContent, `${filename}.csv`, 'text/csv;charset=utf-8;')
+}
+
+// Excel Export
+export function exportToExcel(data, filename, options = {}) {
+  const {
+    sheetName = 'Sheet1',
+    includeHeaders = true
+  } = options
+  
+  // Create workbook and worksheet
+  const workbook = createWorkbook(data, sheetName, includeHeaders)
+  
+  // Download Excel file
+  downloadWorkbook(workbook, `${filename}.xlsx`)
+}
+
+// JSON Export
+export function exportToJSON(data, filename, options = {}) {
+  const {
+    pretty = true,
+    includeMetadata = false
+  } = options
+  
+  let jsonData = data
+  
+  if (includeMetadata) {
+    jsonData = {
+      exportDate: new Date().toISOString(),
+      totalRecords: data.length,
+      data: data
+    }
+  }
+  
+  const jsonString = pretty ? 
+    JSON.stringify(jsonData, null, 2) : 
+    JSON.stringify(jsonData)
+  
+  downloadFile(jsonString, `${filename}.json`, 'application/json')
+}
+
+// Print Table
+export function printTable(tableElement, title = 'Table Export') {
+  const printWindow = window.open('', '_blank')
+  const printContent = generatePrintHTML(tableElement, title)
+  
+  printWindow.document.write(printContent)
+  printWindow.document.close()
+  printWindow.print()
+}</code></pre>
+                            </div>
+                        </section>
+
+                        <!-- Best Practices -->
+                        <section class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Best Practices</h2>
+                            
+                            <div class="space-y-6">
+                                <div class="border border-gray-200 rounded-lg p-6">
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Performance</h3>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1">
+                                        <li>Use server-side export for large datasets (>10,000 rows)</li>
+                                        <li>Implement progress indicators for long-running exports</li>
+                                        <li>Consider pagination for very large exports</li>
+                                        <li>Cache export results when appropriate</li>
+                                        <li>Limit concurrent export requests</li>
+                                    </ul>
+                                </div>
+
+                                <div class="border border-gray-200 rounded-lg p-6">
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-2">User Experience</h3>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1">
+                                        <li>Provide clear export format options</li>
+                                        <li>Include meaningful default filenames</li>
+                                        <li>Show export progress for large datasets</li>
+                                        <li>Handle export errors gracefully</li>
+                                        <li>Respect user's current filters and sorting</li>
+                                    </ul>
+                                </div>
+
+                                <div class="border border-gray-200 rounded-lg p-6">
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Security</h3>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1">
+                                        <li>Validate export permissions on the server</li>
+                                        <li>Sanitize data before export</li>
+                                        <li>Limit export frequency to prevent abuse</li>
+                                        <li>Log export activities for auditing</li>
+                                        <li>Exclude sensitive fields from exports</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Troubleshooting -->
+                        <section class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Troubleshooting</h2>
+                            
+                            <div class="space-y-6">
+                                <div class="border border-yellow-200 bg-yellow-50 rounded-lg p-4">
+                                    <h3 class="text-lg font-semibold text-yellow-900 mb-2">Export button not showing</h3>
+                                    <ul class="list-disc list-inside text-yellow-800 space-y-1">
+                                        <li>Check that export.enabled is set to true in config</li>
+                                        <li>Verify that at least one format is specified in export.formats</li>
+                                        <li>Ensure the toolbar is enabled</li>
+                                    </ul>
+                                </div>
+
+                                <div class="border border-yellow-200 bg-yellow-50 rounded-lg p-4">
+                                    <h3 class="text-lg font-semibold text-yellow-900 mb-2">Download not starting</h3>
+                                    <ul class="list-disc list-inside text-yellow-800 space-y-1">
+                                        <li>Check browser popup blocker settings</li>
+                                        <li>Verify that the export utilities are properly imported</li>
+                                        <li>Check browser console for JavaScript errors</li>
+                                    </ul>
+                                </div>
+
+                                <div class="border border-yellow-200 bg-yellow-50 rounded-lg p-4">
+                                    <h3 class="text-lg font-semibold text-yellow-900 mb-2">Exported data is incomplete</h3>
+                                    <ul class="list-disc list-inside text-yellow-800 space-y-1">
+                                        <li>Check if includeFiltered is set correctly</li>
+                                        <li>Verify that all desired columns have exportable: true</li>
+                                        <li>For server-side: ensure all data is being queried</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Next Steps -->
+                        <section>
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Next Steps</h2>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <a href="server-side.html" class="block p-6 border border-gray-200 rounded-lg hover:border-indigo-300 transition-colors">
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Server-Side Integration</h3>
+                                    <p class="text-gray-600">Learn how to implement server-side exports for large datasets.</p>
+                                </a>
+                                <a href="customization.html" class="block p-6 border border-gray-200 rounded-lg hover:border-indigo-300 transition-colors">
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Customization</h3>
+                                    <p class="text-gray-600">Customize export formats and add your own export functionality.</p>
+                                </a>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="text-center text-gray-600">
+                <p>&copy; 2024 Vue DataTable Component. Built with Vue 3 and Tailwind CSS.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
