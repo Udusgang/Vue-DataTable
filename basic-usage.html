@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic Usage - Vue DataTable Component</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="text-xl font-bold text-gray-900">Vue DataTable</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="index.html" class="text-gray-600 hover:text-gray-900">Documentation</a>
+                    <a href="https://github.com/your-repo/vue-datatable" class="text-gray-600 hover:text-gray-900">GitHub</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="flex">
+            <!-- Sidebar -->
+            <div class="w-64 flex-shrink-0">
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Documentation</h3>
+                    <nav class="space-y-2">
+                        <a href="index.html" class="block text-gray-600 hover:text-gray-900">Overview</a>
+                        <a href="installation.html" class="block text-gray-600 hover:text-gray-900">Installation</a>
+                        <a href="#basic-usage" class="block text-indigo-600 font-medium">Basic Usage</a>
+                        
+                        <div class="pt-4">
+                            <h4 class="text-sm font-semibold text-gray-900 mb-2">Features</h4>
+                            <div class="space-y-1 ml-4">
+                                <a href="server-side.html" class="block text-gray-600 hover:text-gray-900 text-sm">Server-Side</a>
+                                <a href="filtering.html" class="block text-gray-600 hover:text-gray-900 text-sm">Filtering</a>
+                                <a href="sorting.html" class="block text-gray-600 hover:text-gray-900 text-sm">Sorting</a>
+                                <a href="pagination.html" class="block text-gray-600 hover:text-gray-900 text-sm">Pagination</a>
+                                <a href="scrollable.html" class="block text-gray-600 hover:text-gray-900 text-sm">Scrollable</a>
+                                <a href="searchable-select.html" class="block text-gray-600 hover:text-gray-900 text-sm">Searchable Select</a>
+                                <a href="additional-filters.html" class="block text-gray-600 hover:text-gray-900 text-sm">Additional Filters</a>
+                                <a href="export.html" class="block text-gray-600 hover:text-gray-900 text-sm">Export</a>
+                                <a href="customization.html" class="block text-gray-600 hover:text-gray-900 text-sm">Customization</a>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="flex-1 ml-8">
+                <div class="bg-white rounded-lg shadow p-8">
+                    <h1 class="text-3xl font-bold text-gray-900 mb-6">Basic Usage</h1>
+                    
+                    <div class="prose max-w-none">
+                        <!-- Quick Start -->
+                        <section class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Quick Start</h2>
+                            <p class="text-gray-600 mb-4">
+                                Get started with the DataTable component in just a few steps. This guide covers the basic setup 
+                                and common use cases.
+                            </p>
+                            
+                            <div class="bg-gray-900 rounded-lg p-6 mb-6">
+                                <pre><code class="language-vue">&lt;template&gt;
+  &lt;div class="p-6"&gt;
+    &lt;h1 class="text-2xl font-bold mb-4"&gt;My Products&lt;/h1&gt;
+    &lt;DataTable
+      :data="products"
+      :columns="columns"
+      :config="config"
+    /&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script setup&gt;
+import { ref } from 'vue'
+import DataTable from '@/components/DataTable/DataTable.vue'
+
+// Sample data
+const products = ref([
+  { id: 1, name: 'Laptop', category: 'Electronics', price: 999.99, status: 'active' },
+  { id: 2, name: 'Book', category: 'Education', price: 29.99, status: 'active' },
+  { id: 3, name: 'Headphones', category: 'Electronics', price: 199.99, status: 'inactive' }
+])
+
+// Column definitions
+const columns = ref([
+  { key: 'id', title: 'ID', sortable: true },
+  { key: 'name', title: 'Product Name', sortable: true },
+  { key: 'category', title: 'Category', sortable: true },
+  { key: 'price', title: 'Price', type: 'currency', sortable: true },
+  { key: 'status', title: 'Status', type: 'badge', sortable: true }
+])
+
+// Basic configuration
+const config = ref({
+  pagination: { enabled: true, pageSize: 10 },
+  filtering: { enabled: true },
+  ui: { striped: true, hover: true }
+})
+&lt;/script&gt;</code></pre>
+                            </div>
+                        </section>
+
+                        <!-- Data Structure -->
+                        <section class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Data Structure</h2>
+                            <p class="text-gray-600 mb-4">
+                                The DataTable expects an array of objects where each object represents a row.
+                            </p>
+                            
+                            <h3 class="text-xl font-semibold text-gray-900 mb-3">Basic Data Format</h3>
+                            <div class="bg-gray-900 rounded-lg p-6 mb-6">
+                                <pre><code class="language-javascript">const data = ref([
+  {
+    id: 1,
+    name: 'Product 1',
+    category: 'Electronics',
+    price: 99.99,
+    status: 'active',
+    created_at: '2024-01-01T00:00:00Z'
+  },
+  {
+    id: 2,
+    name: 'Product 2',
+    category: 'Books',
+    price: 19.99,
+    status: 'inactive',
+    created_at: '2024-01-02T00:00:00Z'
+  }
+])</code></pre>
+                            </div>
+
+                            <h3 class="text-xl font-semibold text-gray-900 mb-3">Required Fields</h3>
+                            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                                <ul class="list-disc list-inside text-blue-800 space-y-1">
+                                    <li><strong>Unique Identifier:</strong> Each row should have a unique identifier (usually 'id' or '_id')</li>
+                                    <li><strong>Consistent Structure:</strong> All objects should have the same property structure</li>
+                                    <li><strong>Data Types:</strong> Use appropriate data types (strings, numbers, dates, booleans)</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <!-- Column Configuration -->
+                        <section class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Column Configuration</h2>
+                            <p class="text-gray-600 mb-4">
+                                Columns define how your data is displayed and what features are available for each column.
+                            </p>
+                            
+                            <h3 class="text-xl font-semibold text-gray-900 mb-3">Basic Column Properties</h3>
+                            <div class="bg-gray-900 rounded-lg p-6 mb-6">
+                                <pre><code class="language-javascript">const columns = ref([
+  {
+    key: 'id',              // Data property key
+    title: 'ID',            // Column header text
+    sortable: true,         // Enable sorting
+    filterable: false,      // Disable filtering
+    width: '80px',          // Fixed width
+    align: 'center'         // Text alignment
+  },
+  {
+    key: 'name',
+    title: 'Product Name',
+    sortable: true,
+    filterable: true,
+    filterType: 'text',     // Filter input type
+    placeholder: 'Search products...'
+  },
+  {
+    key: 'price',
+    title: 'Price',
+    type: 'currency',       // Display type
+    sortable: true,
+    align: 'right'
+  }
+])</code></pre>
+                            </div>
+
+                            <h3 class="text-xl font-semibold text-gray-900 mb-3">Column Types</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                <div class="border border-gray-200 rounded-lg p-4">
+                                    <h4 class="font-semibold text-gray-900 mb-2">text (default)</h4>
+                                    <p class="text-gray-600 text-sm mb-2">Plain text display</p>
+                                    <div class="bg-gray-900 rounded p-3">
+                                        <pre><code class="language-javascript">{ key: 'name', title: 'Name', type: 'text' }</code></pre>
+                                    </div>
+                                </div>
+
+                                <div class="border border-gray-200 rounded-lg p-4">
+                                    <h4 class="font-semibold text-gray-900 mb-2">currency</h4>
+                                    <p class="text-gray-600 text-sm mb-2">Formatted currency display</p>
+                                    <div class="bg-gray-900 rounded p-3">
+                                        <pre><code class="language-javascript">{ key: 'price', title: 'Price', type: 'currency' }</code></pre>
+                                    </div>
+                                </div>
+
+                                <div class="border border-gray-200 rounded-lg p-4">
+                                    <h4 class="font-semibold text-gray-900 mb-2">number</h4>
+                                    <p class="text-gray-600 text-sm mb-2">Formatted number display</p>
+                                    <div class="bg-gray-900 rounded p-3">
+                                        <pre><code class="language-javascript">{ key: 'stock', title: 'Stock', type: 'number' }</code></pre>
+                                    </div>
+                                </div>
+
+                                <div class="border border-gray-200 rounded-lg p-4">
+                                    <h4 class="font-semibold text-gray-900 mb-2">date</h4>
+                                    <p class="text-gray-600 text-sm mb-2">Formatted date display</p>
+                                    <div class="bg-gray-900 rounded p-3">
+                                        <pre><code class="language-javascript">{ key: 'created_at', title: 'Created', type: 'date' }</code></pre>
+                                    </div>
+                                </div>
+
+                                <div class="border border-gray-200 rounded-lg p-4">
+                                    <h4 class="font-semibold text-gray-900 mb-2">badge</h4>
+                                    <p class="text-gray-600 text-sm mb-2">Colored badge display</p>
+                                    <div class="bg-gray-900 rounded p-3">
+                                        <pre><code class="language-javascript">{ key: 'status', title: 'Status', type: 'badge' }</code></pre>
+                                    </div>
+                                </div>
+
+                                <div class="border border-gray-200 rounded-lg p-4">
+                                    <h4 class="font-semibold text-gray-900 mb-2">boolean</h4>
+                                    <p class="text-gray-600 text-sm mb-2">True/false display</p>
+                                    <div class="bg-gray-900 rounded p-3">
+                                        <pre><code class="language-javascript">{ key: 'is_active', title: 'Active', type: 'boolean' }</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Configuration Options -->
+                        <section class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Configuration Options</h2>
+                            <p class="text-gray-600 mb-4">
+                                The config object controls the behavior and appearance of the DataTable.
+                            </p>
+                            
+                            <h3 class="text-xl font-semibold text-gray-900 mb-3">Complete Configuration</h3>
+                            <div class="bg-gray-900 rounded-lg p-6 mb-6">
+                                <pre><code class="language-javascript">const config = ref({
+  // Pagination settings
+  pagination: {
+    enabled: true,
+    pageSize: 10,
+    pageSizes: [5, 10, 25, 50],
+    showInfo: true,
+    showSizeChanger: true
+  },
+  
+  // Filtering settings
+  filtering: {
+    enabled: true,
+    global: true,           // Global search
+    column: true,           // Column filters
+    debounce: 300,          // Debounce delay
+    additionalFilters: {
+      enabled: true         // Additional filters panel
+    }
+  },
+  
+  // Sorting settings
+  sorting: {
+    enabled: true,
+    multiple: false         // Single column sorting
+  },
+  
+  // Selection settings
+  selection: {
+    enabled: true,
+    multiple: true,
+    showSelectAll: true
+  },
+  
+  // Export settings
+  export: {
+    enabled: true,
+    formats: ['csv', 'excel', 'json'],
+    filename: 'data-export'
+  },
+  
+  // UI settings
+  ui: {
+    striped: true,          // Striped rows
+    bordered: true,         // Table borders
+    hover: true,            // Hover effects
+    compact: false,         // Compact spacing
+    stickyHeader: true,     // Sticky header
+    loading: false,         // Loading state
+    noDataText: 'No data found',
+    loadingText: 'Loading...',
+    scrollable: {
+      enabled: true,
+      maxHeight: '500px'
+    }
+  }
+})</code></pre>
+                            </div>
+                        </section>
+
+                        <!-- Event Handling -->
+                        <section class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Event Handling</h2>
+                            <p class="text-gray-600 mb-4">
+                                The DataTable emits various events that you can listen to for custom functionality.
+                            </p>
+                            
+                            <div class="bg-gray-900 rounded-lg p-6 mb-6">
+                                <pre><code class="language-vue">&lt;template&gt;
+  &lt;DataTable
+    :data="products"
+    :columns="columns"
+    :config="config"
+    @row-click="handleRowClick"
+    @cell-update="handleCellUpdate"
+    @sort="handleSort"
+    @filter="handleFilter"
+    @page-change="handlePageChange"
+    @export="handleExport"
+  /&gt;
+&lt;/template&gt;
+
+&lt;script setup&gt;
+// Event handlers
+function handleRowClick(row) {
+  console.log('Row clicked:', row)
+  // Navigate to detail page, open modal, etc.
+}
+
+function handleCellUpdate({ row, column, value }) {
+  console.log('Cell updated:', { row, column, value })
+  // Update data, call API, etc.
+}
+
+function handleSort({ column, direction }) {
+  console.log('Sort changed:', { column, direction })
+  // For client-side: handled automatically
+  // For server-side: fetch new data
+}
+
+function handleFilter({ key, value, type }) {
+  console.log('Filter applied:', { key, value, type })
+  // For client-side: handled automatically
+  // For server-side: fetch filtered data
+}
+
+function handlePageChange(page) {
+  console.log('Page changed:', page)
+  // For client-side: handled automatically
+  // For server-side: fetch page data
+}
+
+function handleExport({ format, filename, data }) {
+  console.log('Export requested:', { format, filename })
+  // Custom export logic if needed
+}
+&lt;/script&gt;</code></pre>
+                            </div>
+                        </section>
+
+                        <!-- Common Patterns -->
+                        <section class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Common Patterns</h2>
+                            
+                            <h3 class="text-xl font-semibold text-gray-900 mb-3">Loading State</h3>
+                            <div class="bg-gray-900 rounded-lg p-6 mb-6">
+                                <pre><code class="language-vue">&lt;script setup&gt;
+const loading = ref(false)
+const products = ref([])
+
+const config = ref({
+  ui: {
+    loading: loading.value,
+    loadingText: 'Loading products...'
+  }
+})
+
+async function fetchProducts() {
+  loading.value = true
+  try {
+    const response = await fetch('/api/products')
+    products.value = await response.json()
+  } finally {
+    loading.value = false
+  }
+}
+
+onMounted(fetchProducts)
+&lt;/script&gt;</code></pre>
+                            </div>
+
+                            <h3 class="text-xl font-semibold text-gray-900 mb-3">Empty State</h3>
+                            <div class="bg-gray-900 rounded-lg p-6 mb-6">
+                                <pre><code class="language-javascript">const config = ref({
+  ui: {
+    noDataText: 'No products found. Try adjusting your filters.',
+    // Custom empty state component
+    emptyStateComponent: 'CustomEmptyState'
+  }
+})</code></pre>
+                            </div>
+
+                            <h3 class="text-xl font-semibold text-gray-900 mb-3">Badge Configuration</h3>
+                            <div class="bg-gray-900 rounded-lg p-6 mb-6">
+                                <pre><code class="language-javascript">const columns = ref([
+  {
+    key: 'status',
+    title: 'Status',
+    type: 'badge',
+    badgeConfig: {
+      'active': 'bg-green-100 text-green-800',
+      'inactive': 'bg-gray-100 text-gray-800',
+      'pending': 'bg-yellow-100 text-yellow-800',
+      'error': 'bg-red-100 text-red-800'
+    }
+  }
+])</code></pre>
+                            </div>
+                        </section>
+
+                        <!-- Best Practices -->
+                        <section class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Best Practices</h2>
+                            
+                            <div class="space-y-6">
+                                <div class="border border-gray-200 rounded-lg p-6">
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Data Management</h3>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1">
+                                        <li>Always provide unique identifiers for each row</li>
+                                        <li>Use consistent data types across rows</li>
+                                        <li>Handle null/undefined values gracefully</li>
+                                        <li>Consider using reactive data sources</li>
+                                    </ul>
+                                </div>
+
+                                <div class="border border-gray-200 rounded-lg p-6">
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Performance</h3>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1">
+                                        <li>Use pagination for large datasets (>100 rows)</li>
+                                        <li>Implement server-side processing for very large datasets</li>
+                                        <li>Debounce filter inputs to reduce API calls</li>
+                                        <li>Consider virtual scrolling for extremely large tables</li>
+                                    </ul>
+                                </div>
+
+                                <div class="border border-gray-200 rounded-lg p-6">
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-2">User Experience</h3>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1">
+                                        <li>Provide clear column headers and labels</li>
+                                        <li>Use appropriate column types for better formatting</li>
+                                        <li>Include loading states for async operations</li>
+                                        <li>Implement proper error handling and messages</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Next Steps -->
+                        <section>
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Next Steps</h2>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <a href="server-side.html" class="block p-6 border border-gray-200 rounded-lg hover:border-indigo-300 transition-colors">
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Server-Side Processing</h3>
+                                    <p class="text-gray-600">Learn how to integrate with APIs for large datasets and real-time data.</p>
+                                </a>
+                                <a href="filtering.html" class="block p-6 border border-gray-200 rounded-lg hover:border-indigo-300 transition-colors">
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Advanced Filtering</h3>
+                                    <p class="text-gray-600">Explore column filters, searchable selects, and additional filters.</p>
+                                </a>
+                                <a href="scrollable.html" class="block p-6 border border-gray-200 rounded-lg hover:border-indigo-300 transition-colors">
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Scrollable Tables</h3>
+                                    <p class="text-gray-600">Handle wide tables and large datasets with scrolling and sticky columns.</p>
+                                </a>
+                                <a href="customization.html" class="block p-6 border border-gray-200 rounded-lg hover:border-indigo-300 transition-colors">
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Customization</h3>
+                                    <p class="text-gray-600">Customize the appearance and behavior to match your design system.</p>
+                                </a>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="text-center text-gray-600">
+                <p>&copy; 2024 Vue DataTable Component. Built with Vue 3 and Tailwind CSS.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

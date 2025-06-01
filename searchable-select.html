@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Searchable Select - Vue DataTable Component</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="text-xl font-bold text-gray-900">Vue DataTable</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="index.html" class="text-gray-600 hover:text-gray-900">Documentation</a>
+                    <a href="https://github.com/your-repo/vue-datatable" class="text-gray-600 hover:text-gray-900">GitHub</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="flex">
+            <!-- Sidebar -->
+            <div class="w-64 flex-shrink-0">
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Documentation</h3>
+                    <nav class="space-y-2">
+                        <a href="index.html" class="block text-gray-600 hover:text-gray-900">Overview</a>
+                        <a href="installation.html" class="block text-gray-600 hover:text-gray-900">Installation</a>
+                        <a href="basic-usage.html" class="block text-gray-600 hover:text-gray-900">Basic Usage</a>
+                        
+                        <div class="pt-4">
+                            <h4 class="text-sm font-semibold text-gray-900 mb-2">Features</h4>
+                            <div class="space-y-1 ml-4">
+                                <a href="server-side.html" class="block text-gray-600 hover:text-gray-900 text-sm">Server-Side</a>
+                                <a href="filtering.html" class="block text-gray-600 hover:text-gray-900 text-sm">Filtering</a>
+                                <a href="sorting.html" class="block text-gray-600 hover:text-gray-900 text-sm">Sorting</a>
+                                <a href="pagination.html" class="block text-gray-600 hover:text-gray-900 text-sm">Pagination</a>
+                                <a href="scrollable.html" class="block text-gray-600 hover:text-gray-900 text-sm">Scrollable</a>
+                                <a href="#searchable-select" class="block text-indigo-600 font-medium text-sm">Searchable Select</a>
+                                <a href="additional-filters.html" class="block text-gray-600 hover:text-gray-900 text-sm">Additional Filters</a>
+                                <a href="export.html" class="block text-gray-600 hover:text-gray-900 text-sm">Export</a>
+                                <a href="customization.html" class="block text-gray-600 hover:text-gray-900 text-sm">Customization</a>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="flex-1 ml-8">
+                <div class="bg-white rounded-lg shadow p-8">
+                    <h1 class="text-3xl font-bold text-gray-900 mb-6">Searchable Select Filters</h1>
+                    
+                    <div class="prose max-w-none">
+                        <!-- Overview -->
+                        <section class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Overview</h2>
+                            <p class="text-gray-600 mb-4">
+                                Searchable Select filters provide an enhanced dropdown experience with local search functionality. 
+                                Users can search through options before selecting, making it easy to find specific values in large option lists.
+                            </p>
+                            
+                            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                                <h3 class="text-lg font-semibold text-blue-900 mb-2">Key Features</h3>
+                                <ul class="list-disc list-inside text-blue-800 space-y-1">
+                                    <li>Local search through dropdown options</li>
+                                    <li>Keyboard navigation (arrow keys, enter, escape)</li>
+                                    <li>Clear selection functionality</li>
+                                    <li>Server request only on selection, not during search</li>
+                                    <li>Visual feedback for selected options</li>
+                                    <li>Customizable placeholder text</li>
+                                    <li>Responsive design</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <!-- Basic Setup -->
+                        <section class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Basic Setup</h2>
+                            
+                            <h3 class="text-xl font-semibold text-gray-900 mb-3">Column Configuration</h3>
+                            <div class="bg-gray-900 rounded-lg p-6 mb-6">
+                                <pre><code class="language-javascript">const columns = ref([
+  {
+    key: 'category',
+    title: 'Category',
+    sortable: true,
+    filterable: true,
+    filterType: 'select',  // This creates a searchable select
+    placeholder: 'Filter by category...',
+    filterOptions: [
+      { value: '', label: 'All Categories' },
+      { value: 'Electronics', label: 'Electronics' },
+      { value: 'Home & Kitchen', label: 'Home & Kitchen' },
+      { value: 'Books', label: 'Books' },
+      { value: 'Sports & Outdoors', label: 'Sports & Outdoors' },
+      { value: 'Toys & Games', label: 'Toys & Games' },
+      { value: 'Clothing', label: 'Clothing' },
+      { value: 'Health & Beauty', label: 'Health & Beauty' }
+    ]
+  },
+  {
+    key: 'status',
+    title: 'Status',
+    type: 'badge',
+    sortable: true,
+    filterable: true,
+    filterType: 'select',
+    placeholder: 'Filter by status...',
+    filterOptions: [
+      { value: '', label: 'All Status' },
+      { value: 'active', label: 'Active' },
+      { value: 'inactive', label: 'Inactive' },
+      { value: 'pending', label: 'Pending' },
+      { value: 'out_of_stock', label: 'Out of Stock' }
+    ]
+  }
+])</code></pre>
+                            </div>
+                        </section>
+
+                        <!-- How It Works -->
+                        <section class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">How It Works</h2>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                <div class="border border-gray-200 rounded-lg p-6">
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-3">User Interaction Flow</h3>
+                                    <ol class="list-decimal list-inside text-gray-600 space-y-2">
+                                        <li>User clicks on the select filter dropdown</li>
+                                        <li>Dropdown opens with search input and all options</li>
+                                        <li>User types to search through options (local filtering)</li>
+                                        <li>Options are filtered in real-time as user types</li>
+                                        <li>User selects an option by clicking or pressing Enter</li>
+                                        <li>Server request is sent with the selected value</li>
+                                        <li>Table updates immediately with filtered results</li>
+                                    </ol>
+                                </div>
+
+                                <div class="border border-gray-200 rounded-lg p-6">
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-3">Performance Benefits</h3>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-2">
+                                        <li><strong>No API calls during search:</strong> Search happens locally</li>
+                                        <li><strong>Immediate feedback:</strong> Options filter as you type</li>
+                                        <li><strong>Reduced server load:</strong> Only selection triggers requests</li>
+                                        <li><strong>Better UX:</strong> Fast, responsive search experience</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Keyboard Navigation -->
+                        <section class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Keyboard Navigation</h2>
+                            <p class="text-gray-600 mb-4">
+                                The searchable select supports full keyboard navigation for accessibility and power users.
+                            </p>
+                            
+                            <div class="bg-gray-50 border border-gray-200 rounded-lg p-6 mb-6">
+                                <h3 class="text-lg font-semibold text-gray-900 mb-3">Keyboard Shortcuts</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="space-y-2">
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-gray-600">Open dropdown</span>
+                                            <kbd class="px-2 py-1 bg-gray-200 rounded text-sm">Enter / Space</kbd>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-gray-600">Navigate options</span>
+                                            <kbd class="px-2 py-1 bg-gray-200 rounded text-sm">↑ ↓</kbd>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-gray-600">Select option</span>
+                                            <kbd class="px-2 py-1 bg-gray-200 rounded text-sm">Enter</kbd>
+                                        </div>
+                                    </div>
+                                    <div class="space-y-2">
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-gray-600">Close dropdown</span>
+                                            <kbd class="px-2 py-1 bg-gray-200 rounded text-sm">Escape</kbd>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-gray-600">Clear selection</span>
+                                            <kbd class="px-2 py-1 bg-gray-200 rounded text-sm">Delete</kbd>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-gray-600">Search options</span>
+                                            <kbd class="px-2 py-1 bg-gray-200 rounded text-sm">Type</kbd>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Advanced Configuration -->
+                        <section class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Advanced Configuration</h2>
+                            
+                            <h3 class="text-xl font-semibold text-gray-900 mb-3">Large Option Lists</h3>
+                            <div class="bg-gray-900 rounded-lg p-6 mb-6">
+                                <pre><code class="language-javascript">// For large option lists, consider grouping or pagination
+const columns = ref([
+  {
+    key: 'country',
+    title: 'Country',
+    filterable: true,
+    filterType: 'select',
+    placeholder: 'Search countries...',
+    filterOptions: [
+      { value: '', label: 'All Countries' },
+      { value: 'US', label: 'United States' },
+      { value: 'CA', label: 'Canada' },
+      { value: 'UK', label: 'United Kingdom' },
+      { value: 'DE', label: 'Germany' },
+      { value: 'FR', label: 'France' },
+      { value: 'JP', label: 'Japan' },
+      { value: 'AU', label: 'Australia' },
+      // ... many more options
+    ]
+  }
+])</code></pre>
+                            </div>
+
+                            <h3 class="text-xl font-semibold text-gray-900 mb-3">Custom Search Logic</h3>
+                            <p class="text-gray-600 mb-4">
+                                The search is case-insensitive and matches anywhere in the label by default. 
+                                You can customize this behavior by modifying the SearchableSelect component.
+                            </p>
+                            
+                            <div class="bg-gray-900 rounded-lg p-6 mb-6">
+                                <pre><code class="language-javascript">// In SearchableSelect.vue - custom search logic
+const filteredOptions = computed(() => {
+  if (!searchQuery.value) return props.options
+  
+  return props.options.filter(option => {
+    // Case-insensitive search in label
+    return option.label.toLowerCase().includes(searchQuery.value.toLowerCase())
+    
+    // Alternative: Search in both value and label
+    // return option.label.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+    //        option.value.toLowerCase().includes(searchQuery.value.toLowerCase())
+    
+    // Alternative: Starts with search
+    // return option.label.toLowerCase().startsWith(searchQuery.value.toLowerCase())
+  })
+})</code></pre>
+                            </div>
+                        </section>
+
+                        <!-- Server-Side Integration -->
+                        <section class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Server-Side Integration</h2>
+                            
+                            <h3 class="text-xl font-semibold text-gray-900 mb-3">Event Handling</h3>
+                            <div class="bg-gray-900 rounded-lg p-6 mb-6">
+                                <pre><code class="language-vue">&lt;template&gt;
+  &lt;DataTable
+    :data="products"
+    :columns="columns"
+    :config="config"
+    server-side
+    @filter="handleFilter"
+  /&gt;
+&lt;/template&gt;
+
+&lt;script setup&gt;
+// Handle searchable select filter events
+async function handleFilter({ key, value, type }) {
+  console.log('Searchable select filter:', { key, value, type })
+  
+  // Update filters state
+  if (value === '' || value === null || value === undefined) {
+    delete currentFilters.value[key]
+  } else {
+    currentFilters.value[key] = { value, type: 'equals' } // Usually exact match for selects
+  }
+  
+  // Reset to first page when filtering
+  paginationInfo.value.currentPage = 1
+  
+  // Fetch filtered data from server
+  await fetchData()
+}
+
+// Build query parameters
+function buildQueryParams() {
+  const params = new URLSearchParams()
+  
+  // Add filters
+  Object.entries(currentFilters.value).forEach(([key, filter]) => {
+    if (filter.value) {
+      params.append(`filter[${key}]`, filter.value)
+      params.append(`filter_type[${key}]`, filter.type || 'equals')
+    }
+  })
+  
+  return params.toString()
+}
+&lt;/script&gt;</code></pre>
+                            </div>
+
+                            <h3 class="text-xl font-semibold text-gray-900 mb-3">Laravel Backend</h3>
+                            <div class="bg-gray-900 rounded-lg p-6 mb-6">
+                                <pre><code class="language-php">// Handle searchable select filters in Laravel
+private function applyFilters($query, Request $request)
+{
+    $filters = $request->get('filter', []);
+    $filterTypes = $request->get('filter_type', []);
+    
+    foreach ($filters as $field => $value) {
+        if (empty($value)) continue;
+        
+        $type = $filterTypes[$field] ?? 'equals';
+        
+        // Searchable selects typically use exact matches
+        if ($type === 'equals') {
+            $query->where($field, $value);
+        }
+        // Handle other filter types as needed
+    }
+}</code></pre>
+                            </div>
+                        </section>
+
+                        <!-- Styling Customization -->
+                        <section class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Styling Customization</h2>
+                            
+                            <h3 class="text-xl font-semibold text-gray-900 mb-3">Custom CSS Classes</h3>
+                            <div class="bg-gray-900 rounded-lg p-6 mb-6">
+                                <pre><code class="language-css">/* Customize searchable select appearance */
+.searchable-select-button {
+  @apply border-gray-300 bg-white text-gray-900 hover:bg-gray-50;
+}
+
+.searchable-select-dropdown {
+  @apply bg-white border border-gray-200 rounded-lg shadow-lg;
+  max-height: 300px; /* Limit dropdown height */
+}
+
+.searchable-select-search {
+  @apply border-b border-gray-200 px-3 py-2;
+}
+
+.searchable-select-option {
+  @apply px-3 py-2 hover:bg-gray-100 cursor-pointer;
+}
+
+.searchable-select-option.selected {
+  @apply bg-indigo-100 text-indigo-900;
+}
+
+.searchable-select-option.highlighted {
+  @apply bg-gray-100;
+}</code></pre>
+                            </div>
+
+                            <h3 class="text-xl font-semibold text-gray-900 mb-3">Dark Mode Support</h3>
+                            <div class="bg-gray-900 rounded-lg p-6 mb-6">
+                                <pre><code class="language-css">/* Dark mode styles */
+@media (prefers-color-scheme: dark) {
+  .searchable-select-button {
+    @apply border-gray-600 bg-gray-800 text-gray-100 hover:bg-gray-700;
+  }
+  
+  .searchable-select-dropdown {
+    @apply bg-gray-800 border-gray-600;
+  }
+  
+  .searchable-select-option {
+    @apply text-gray-100 hover:bg-gray-700;
+  }
+  
+  .searchable-select-option.selected {
+    @apply bg-indigo-900 text-indigo-100;
+  }
+}</code></pre>
+                            </div>
+                        </section>
+
+                        <!-- Best Practices -->
+                        <section class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Best Practices</h2>
+                            
+                            <div class="space-y-6">
+                                <div class="border border-gray-200 rounded-lg p-6">
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Option Management</h3>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1">
+                                        <li>Always include an "All" or empty option for clearing filters</li>
+                                        <li>Keep option labels clear and descriptive</li>
+                                        <li>Sort options alphabetically for better usability</li>
+                                        <li>Consider grouping related options</li>
+                                        <li>Limit options to reasonable numbers (< 100 for best performance)</li>
+                                    </ul>
+                                </div>
+
+                                <div class="border border-gray-200 rounded-lg p-6">
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-2">User Experience</h3>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1">
+                                        <li>Use descriptive placeholder text</li>
+                                        <li>Provide visual feedback for selected options</li>
+                                        <li>Support keyboard navigation for accessibility</li>
+                                        <li>Show clear indication when no options match search</li>
+                                        <li>Make the clear/reset functionality obvious</li>
+                                    </ul>
+                                </div>
+
+                                <div class="border border-gray-200 rounded-lg p-6">
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Performance</h3>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1">
+                                        <li>Search happens locally - no API calls during typing</li>
+                                        <li>Only send server requests when user selects an option</li>
+                                        <li>Use debouncing if implementing server-side search</li>
+                                        <li>Consider virtual scrolling for very large option lists</li>
+                                        <li>Cache filter options when possible</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Troubleshooting -->
+                        <section class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Troubleshooting</h2>
+                            
+                            <div class="space-y-6">
+                                <div class="border border-yellow-200 bg-yellow-50 rounded-lg p-4">
+                                    <h3 class="text-lg font-semibold text-yellow-900 mb-2">Dropdown not opening</h3>
+                                    <p class="text-yellow-800 mb-2">Check that:</p>
+                                    <ul class="list-disc list-inside text-yellow-800 space-y-1">
+                                        <li>filterType is set to 'select'</li>
+                                        <li>filterOptions array is provided and not empty</li>
+                                        <li>No CSS z-index conflicts</li>
+                                    </ul>
+                                </div>
+
+                                <div class="border border-yellow-200 bg-yellow-50 rounded-lg p-4">
+                                    <h3 class="text-lg font-semibold text-yellow-900 mb-2">Search not working</h3>
+                                    <p class="text-yellow-800 mb-2">Verify that:</p>
+                                    <ul class="list-disc list-inside text-yellow-800 space-y-1">
+                                        <li>Options have proper 'label' properties</li>
+                                        <li>Search input is receiving focus</li>
+                                        <li>filteredOptions computed property is working</li>
+                                    </ul>
+                                </div>
+
+                                <div class="border border-yellow-200 bg-yellow-50 rounded-lg p-4">
+                                    <h3 class="text-lg font-semibold text-yellow-900 mb-2">Server not receiving filter</h3>
+                                    <p class="text-yellow-800 mb-2">Ensure that:</p>
+                                    <ul class="list-disc list-inside text-yellow-800 space-y-1">
+                                        <li>@filter event handler is properly connected</li>
+                                        <li>Filter parameters are being built correctly</li>
+                                        <li>Server endpoint expects the correct parameter format</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Next Steps -->
+                        <section>
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Next Steps</h2>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <a href="filtering.html" class="block p-6 border border-gray-200 rounded-lg hover:border-indigo-300 transition-colors">
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Advanced Filtering</h3>
+                                    <p class="text-gray-600">Learn about other filter types and advanced filtering techniques.</p>
+                                </a>
+                                <a href="additional-filters.html" class="block p-6 border border-gray-200 rounded-lg hover:border-indigo-300 transition-colors">
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Additional Filters</h3>
+                                    <p class="text-gray-600">Explore additional filters for non-visible fields like created_at.</p>
+                                </a>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="text-center text-gray-600">
+                <p>&copy; 2024 Vue DataTable Component. Built with Vue 3 and Tailwind CSS.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
